@@ -43,6 +43,7 @@ if not options.app or not env:
     sys.exit(1)
 __import__("%s.config" % options.app)
 schema = options.mysql_schema
+log.info("Starting Schema for env: %s", env)
 
 
 # Just create the database
@@ -173,4 +174,5 @@ if __name__ in ('__main__', 'hydra.schema'):
     except tornado.database.OperationalError, e:
         log.error("The database doesn't exist. Try -c option.")
     main()
+    log.info("Finished Schema.")
     exit(0)    # Call exit to prevent setup.py from calling main() by default

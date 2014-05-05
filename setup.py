@@ -2,10 +2,10 @@
 from setuptools import setup
 setup(
     name = 'hydra',
-    version = '0.23',
+    version = '0.24',
     author = "Michael D'Agosta",
     author_email = 'mdagosta@codebug.com',
-    description = 'Hydra Tornado utilities',
+    description = 'Hydra Tornado Utilities',
     url = 'https://github.com/mdagosta/hydra',
     packages = ['hydra'],
     entry_points = {

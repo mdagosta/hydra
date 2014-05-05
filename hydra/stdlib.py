@@ -34,7 +34,7 @@ def bcrypt_hashpw(password, log_rounds):
 def bcrypt_password(password):
     return bcrypt.hashpw(password, bcrypt.gensalt(log_rounds=BCRYPT_LOG_ROUNDS))
 
-def _unicode(obj, encoding='utf-8'):
+def unicode_str(obj, encoding='utf-8'):
     if isinstance(obj, basestring):
         if not isinstance(obj, unicode):
             obj = unicode(obj, encoding)

@@ -39,7 +39,7 @@ def mime(txt, subtype):
             break
     charset = body_charset
     if charset == 'UTF-8':
-        txt = stdlib._unicode(txt, charset)
+        txt = stdlib.unicode_str(txt, charset)
     return email.mime.text.MIMEText(txt.encode(charset), subtype, charset)
 
 def encode_email(sender, recipient, subject, body, reply_to, service_sender):
@@ -49,7 +49,7 @@ def encode_email(sender, recipient, subject, body, reply_to, service_sender):
     else:
         plain = body.get('plain', None)
         html = body.get('html', None)
-    header_charset = 'ISO-8859-1'
+    header_charset = 'utf-8'
     parts = []
     if plain:
         parts.append(mime(plain, 'plain'))
@@ -75,15 +75,15 @@ def encode_email(sender, recipient, subject, body, reply_to, service_sender):
         else:
             msg[header[0]] = email.Utils.formataddr((name, addr))
     # Finish message
-    subject = stdlib._unicode(subject, header_charset)
-    msg['Subject'] = email.Header.Header(unicode(subject), header_charset)
+    subject = stdlib.unicode_str(subject, header_charset)
+    msg['Subject'] = email.Header.Header(stdlib.unicode_str(subject), header_charset)
     return msg.as_string()
 
 def render_email(handler, from_email, to_addrs, subject, template, email_opts, **kwargs):
     if not handler:
         template_loader = tornado.template.Loader(options.template_path)
-        plain = stdlib._unicode(template_loader.load(template+'.txt').generate(**email_opts))
-        html = stdlib._unicode(template_loader.load(template+'.html').generate(**email_opts))
+        plain = stdlib.unicode_str(template_loader.load(template+'.txt').generate(**email_opts))
+        html = stdlib.unicode_str(template_loader.load(template+'.html').generate(**email_opts))
     else:
         plain = handler.render_string('%s.txt' % template, **email_opts)
         html =  handler.render_string('%s.html' % template, **email_opts)
