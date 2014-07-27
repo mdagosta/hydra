@@ -197,7 +197,7 @@ class RequestHandler(tornado.web.RequestHandler):
             model.Session.put(self.session['id'], self.session)
         tornado.web.RequestHandler.finish(self, chunk)
 
-    def head(self):
+    def head(self, *args, **kwargs):
         pass
 
 
