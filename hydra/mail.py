@@ -108,7 +108,7 @@ def sendmail(from_addr, to_addrs, msg):
         traceback.print_exc()
 
 def error_email(domain, handler):
-    service_email = options.from_email
+    service_email = 'Codebug Error <%s>' % options.from_email
     email = options.to_email
     subject = "Hydra Error on %s" % domain
     tb = traceback.format_exc()
