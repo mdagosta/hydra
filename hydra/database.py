@@ -8,6 +8,7 @@
 
 # Python Imports
 import logging as log
+import encodings; encodings.aliases.aliases['utf8mb4'] = 'utf_8'
 import pprint
 import threading
 import time
@@ -22,6 +23,10 @@ from tornado.options import options
 # Maintains a thread-safe dict of connections to databases
 class Connection(tornado.database.Connection):
     threads = {}
+
+    def __init__(self, host, database, user, password, max_idle_time=7 * 3600):
+        super(Connection, self).__init__(host, database, user, password, max_idle_time)
+        self._db_args['charset'] = 'utf8mb4'
 
     @classmethod
     def connect(cls, **kwargs):
@@ -43,6 +48,7 @@ class Connection(tornado.database.Connection):
         connections = cls.threads.setdefault(ident, {})
         if not schema in connections:
             conn = cls(host, schema, user, passwd)
+            conn.execute("SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci")
             conn.schema = schema
             cls.threads[ident][schema] = conn
         return connections[schema]
